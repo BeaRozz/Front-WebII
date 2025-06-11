@@ -11,13 +11,13 @@ export default function Login() {
   const handleLogin = async (usuario, contrasena) => {
     setLoading(true); // disable button
     try {
-      const response = await fetch("http://localhost/api/login/", {
+      const response = await fetch("http://localhost:8000/api/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: usuario,
+          email: usuario,
           password: contrasena,
         }),
       });
