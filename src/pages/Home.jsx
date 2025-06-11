@@ -1,5 +1,3 @@
-import React from "react";
-import { Link } from "react-router-dom";
 import AboutSection from "../components/AboutSection";
 import DonateAndRecieveSection from "../components/DonateAndRecieveSection";
 import JoinTheCauseSection from "../components/JoinTheCause";
