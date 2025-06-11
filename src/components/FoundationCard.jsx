@@ -36,12 +36,12 @@ export default function FoundationSection() {
       {/* Right section */}
       <div className="relative w-full md:w-1/2 bg-[#072c1b] flex items-center justify-center p-6 md:p-8">
         {/* Login button positioned absolutely */}
-        <button
-          type="button"
+        <Link
+          to="/login"
           className="absolute top-4 right-4 border border-white text-white px-6 py-2 font-medium rounded hover:bg-white hover:text-[#072c1b] transition"
         >
           Login
-        </button>
+        </Link>
 
         <img
           src={logo}
