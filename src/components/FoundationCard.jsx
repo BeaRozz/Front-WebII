@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import NavLinks from "./NavLinks";
 
 const logo = new URL("../assets/DinoFoundationLogo.png", import.meta.url).href;
 
@@ -15,10 +16,7 @@ export default function FoundationSection() {
     <div className="flex flex-col md:flex-row bg-[#f0e9e4] rounded shadow-md overflow-hidden min-h-[20rem]">
       {/* Left section */}
       <div className="w-full md:w-1/2 p-6 md:pl-8 flex flex-col justify-center gap-4">
-        <p className="text-sm text-gray-600">
-          <span className="font-semibold text-green-700">Home</span> - Eventos -
-          Fundaciones
-        </p>
+        <NavLinks active="Home" />
         <h1 className="text-2xl md:text-3xl font-bold text-[#023121] leading-snug">
           Dino
           <br />

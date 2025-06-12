@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EventCard from "../components/EventCard";
 import Footer from "../components/Footer";
+import NavLinks from "../components/NavLinks";
 
 const logo = new URL("../assets/DinoFoundationLogo.png", import.meta.url);
 
@@ -50,14 +51,14 @@ export default function Events() {
   return (
     <div className="min-h-screen bg-[#f3ece7]">
       <div className="w-full md:w-1/2 p-6 md:pl-8 flex flex-col justify-center gap-4">
-        <p className="text-sm text-gray-600">
-          Home - <span className="font-semibold text-green-700">Eventos</span> -
-          Fundaciones
-        </p>
+        <NavLinks active="Eventos" />
         <h1 className="text-2xl md:text-3xl font-bold text-[#023121] leading-snug my-10">
           Nuestros Eventos
         </h1>
-        <button onClick={() => navigate(`/eventos/create`)} className="border border-black px-4 py-2 w-fit text-sm font-medium hover:bg-black hover:text-white transition">
+        <button
+          onClick={() => navigate(`/eventos/create`)}
+          className="border border-black px-4 py-2 w-fit text-sm font-medium hover:bg-black hover:text-white transition"
+        >
           Agregar evento
         </button>
       </div>

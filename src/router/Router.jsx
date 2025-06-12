@@ -8,6 +8,7 @@ import Events from '../pages/Events';
 import EventDetail from '../pages/EventDetails';
 import CreateEvent from '../pages/CreateEvent';
 import EditEvent from '../pages/EditEvent';
+import FoundationDetails from '../pages/FoundationDetails';
 
 
 export default function AppRouter() {
@@ -21,6 +22,7 @@ export default function AppRouter() {
           <Route path="/eventos/:id" element={<EventDetail />} />
           <Route path="/eventos/create" element={<CreateEvent />} />
           <Route path="/eventos/:id/edit" element={<EditEvent />} />
+          <Route path="/fundaciones/:id" element={<FoundationDetails />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </MainLayout>

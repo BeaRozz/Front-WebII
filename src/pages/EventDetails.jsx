@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { CalendarDays, Clock, MapPin } from "lucide-react";
 import PlushGallery from "../components/PlushGallery";
 import Footer from "../components/Footer";
+import NavLinks from "../components/NavLinks";
 
 function formatEventDates(start, end) {
   const startDate = new Date(start);
@@ -96,7 +97,7 @@ export default function EventDetail() {
   return (
     <div className="bg-[#f3ece7] min-h-screen text-[#102e21]">
       <div className="px-6 py-4">
-        <p className="text-sm text-gray-600">Home - Eventos - Fundaciones</p>
+        <NavLinks active="Eventos" />
         <h1 className="text-3xl font-bold mt-10">{nombre}</h1>
         <span className="inline-block mt-2 bg-[#102e21] text-white px-3 py-1 text-sm rounded mb-10">
           {categoria?.nombre ?? "Sin categoria"}
@@ -112,7 +113,12 @@ export default function EventDetail() {
         <h2 className="text-2xl font-bold">{nombre}</h2>
         <p className="mt-2">{descripcion}</p>
 
-        <div className="flex items-center mt-4 gap-2">
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => navigate(`/fundaciones/${fundacion.id}`)}
+          className="flex items-center mt-4 gap-2 cursor-pointer hover:underline focus:outline-none focus:ring-2 focus:ring-white rounded"
+        >
           {fundacion?.link_logo && (
             <img
               src={fundacion.link_logo}
