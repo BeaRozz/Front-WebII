@@ -66,7 +66,7 @@ export default function EventCard({ event }) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow p-4 max-w-sm relative">
+    <div className="bg-white rounded-xl shadow p-4 max-w-sm relative w-full">
       <div className="relative">
         <img
           src={imagen.link}
