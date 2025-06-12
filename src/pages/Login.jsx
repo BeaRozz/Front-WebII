@@ -42,7 +42,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#f0e9e4] rounded shadow-md overflow-hidden">
+    <div className="flex min-h-screen bg-[#f0e9e4] shadow-md overflow-hidden">
       {/* Left 1/3 - Logo */}
       <div className="w-1/3 bg-[#072c1b] flex items-center justify-center p-8">
         <img

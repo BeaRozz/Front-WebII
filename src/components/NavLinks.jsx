@@ -4,15 +4,16 @@ import { useNavigate } from "react-router-dom";
 export default function NavLinks({ active }) {
   const navigate = useNavigate();
 
-  // Helper to render each nav item, highlighting the active one
   const renderLink = (name, path) => {
-    if (active === name) {
-      return <span className="font-semibold text-green-700">{name}</span>;
-    }
+    const isActive = active === name;
     return (
       <button
-        className="text-gray-600 hover:underline"
         onClick={() => navigate(path)}
+        className={
+          isActive
+            ? "font-semibold text-green-700 underline" // active style
+            : "text-gray-600 hover:underline"
+        }
       >
         {name}
       </button>
@@ -20,17 +21,8 @@ export default function NavLinks({ active }) {
   };
 
   return (
-    <p className="text-sm text-gray-600">
-      {renderLink("Home", "/")} - {renderLink("Eventos", "/eventos")} -{" "}
-      <span
-        className={
-          active === "Fundaciones"
-            ? "font-semibold text-green-700"
-            : "text-gray-600"
-        }
-      >
-        Fundaciones
-      </span>
+    <p className="text-sm text-gray-600 space-x-2">
+      {renderLink("Home", "/")} - {renderLink("Eventos", "/eventos")} - {renderLink("Fundaciones", "/fundaciones")}
     </p>
   );
 }

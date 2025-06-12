@@ -20,7 +20,7 @@ export default function JoinTheCauseSection() {
           <img
             src={logo}
             alt="Foundation Logo"
-            className="w-12 h-12 md:w-20 md:h-20 object-contain mr-4"
+            className="w-12 h-12 md:w-32 md:h-32 object-contain mr-4"
           />
           <h2 className="font-bold text-start text-3xl md:text-7xl leading-tight">
             Dino <br /> Foundations
