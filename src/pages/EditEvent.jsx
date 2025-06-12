@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const logo = new URL("../assets/DinoFoundationLogo.png", import.meta.url).href;
 
-export default function CreateEvent() {
+export default function EditEvent() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [formData, setFormData] = useState({
     nombre: "",
     descripcion: "",
@@ -22,40 +23,79 @@ export default function CreateEvent() {
   const [fundaciones, setFundaciones] = useState([]);
   const [imagenes, setImagenes] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  const [error, setError] = useState(""); // General API or form error
-  const [fieldErrors, setFieldErrors] = useState({}); // Individual field errors
+  const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
 
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/"); // Redirect immediately if no token
-    return;
-  }
 
+  // Redirect if no token (do this inside useEffect to avoid issues)
   useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
+
+  // Fetch select data
+  useEffect(() => {
+    if (!token) return;
+
     fetch("http://localhost:8000/api/lugares", {
       headers: { Authorization: token },
     })
       .then((res) => res.json())
-      .then(setLugares);
+      .then(setLugares)
+      .catch(() => setError("Error al cargar lugares."));
 
     fetch("http://localhost:8000/api/fundaciones", {
       headers: { Authorization: token },
     })
       .then((res) => res.json())
-      .then(setFundaciones);
+      .then(setFundaciones)
+      .catch(() => setError("Error al cargar fundaciones."));
 
     fetch("http://localhost:8000/api/img_promocionales", {
       headers: { Authorization: token },
     })
       .then((res) => res.json())
-      .then(setImagenes);
+      .then(setImagenes)
+      .catch(() => setError("Error al cargar imágenes."));
 
     fetch("http://localhost:8000/api/categorias", {
       headers: { Authorization: token },
     })
       .then((res) => res.json())
-      .then(setCategorias);
+      .then(setCategorias)
+      .catch(() => setError("Error al cargar categorías."));
   }, [token]);
+
+  // Load event data
+  useEffect(() => {
+    if (!token) return;
+    if (!id) return;
+
+    fetch(`http://localhost:8000/api/eventos/${id}`, {
+      headers: { Authorization: token },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Evento no encontrado");
+        return res.json();
+      })
+      .then((data) => {
+        setFormData({
+          nombre: data.nombre || "",
+          descripcion: data.descripcion || "",
+          fecha_inicial: data.fecha_inicial || "",
+          hora_inicial: data.hora_inicial || "",
+          fecha_final: data.fecha_final || "",
+          hora_final: data.hora_final || "",
+          fundacion: data.fundacion?.nombre || "",
+          lugar: data.lugar?.nombre || "",
+          categoria: data.categoria?.nombre || "",
+          imagen: data.imagen?.nombre || "",
+        });
+      })
+      .catch(() => setError("Error al cargar los datos del evento."));
+  }, [id, token]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -66,12 +106,18 @@ export default function CreateEvent() {
   const validateForm = () => {
     const newErrors = {};
 
-    // Check required fields (non-empty)
     Object.entries(formData).forEach(([key, value]) => {
-      if (!value.trim()) newErrors[key] = "Este campo es obligatorio.";
+      // Check for null, undefined, or empty string after trimming
+      if (
+        value === null ||
+        value === undefined ||
+        (typeof value === "string" && value.trim() === "") ||
+        (typeof value !== "string" && !value) // covers numbers like 0 or falsy IDs
+      ) {
+        newErrors[key] = "Este campo es obligatorio.";
+      }
     });
 
-    // Only do date/time validation if no missing fields for those
     if (
       !newErrors.fecha_inicial &&
       !newErrors.hora_inicial &&
@@ -102,44 +148,27 @@ export default function CreateEvent() {
       setError("Por favor, complete todos los campos.");
       return;
     }
-    console.log(formData);
 
-    fetch("http://localhost:8000/api/eventos/crear/", {
-      method: "POST",
+    fetch(`http://localhost:8000/api/eventos/${id}/editar/`, {
+      method: "PUT",
       headers: {
-        Authorization: token,
         "Content-Type": "application/json",
+        Authorization: token,
       },
       body: JSON.stringify(formData),
     })
       .then(async (res) => {
         if (!res.ok) {
           const data = await res.json();
-          throw new Error(data.message || "Error al crear evento.");
+          throw new Error(data.message || "Error al editar el evento.");
         }
         return res.json();
       })
       .then(() => {
-        alert("Evento creado con éxito");
+        alert("Evento actualizado con éxito");
         navigate("/eventos");
-        setFormData({
-          nombre: "",
-          descripcion: "",
-          fecha_inicial: "",
-          hora_inicial: "",
-          fecha_final: "",
-          hora_final: "",
-          fundacion: "",
-          lugar: "",
-          categoria: "",
-          imagen: "",
-        });
-        setError("");
-        setFieldErrors({});
       })
-      .catch((err) => {
-        setError(err.message);
-      });
+      .catch((err) => setError(err.message));
   };
 
   const renderError = (field) =>
@@ -150,7 +179,7 @@ export default function CreateEvent() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-[#f3ece7]">
       <div className="flex-1 p-4 md:p-6 flex flex-col gap-2 overflow-y-auto">
-        <h2 className="text-xl font-semibold mb-4">Nuevo Evento</h2>
+        <h2 className="text-xl font-semibold mb-4">Editar Evento</h2>
 
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
@@ -275,19 +304,18 @@ export default function CreateEvent() {
         {renderError("categoria")}
       </div>
 
-      {/* Right side */}
+      {/* Right Side */}
       <div className="flex-1 flex flex-col justify-center items-center bg-[#102e21] p-6 gap-10 md:gap-20">
         <img
           src={logo}
           alt="Foundation Logo"
           className="w-20 h-20 md:w-32 md:h-32 object-contain"
         />
-
         <button
           onClick={handleSubmit}
           className="border border-white text-white px-6 py-3 text-lg font-semibold w-full max-w-xs hover:bg-white hover:text-black transition rounded"
         >
-          Crear Evento
+          Guardar Cambios
         </button>
       </div>
     </div>
