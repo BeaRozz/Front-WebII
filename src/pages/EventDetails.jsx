@@ -99,28 +99,28 @@ export default function EventDetail() {
         <p className="text-sm text-gray-600">Home - Eventos - Fundaciones</p>
         <h1 className="text-3xl font-bold mt-10">{nombre}</h1>
         <span className="inline-block mt-2 bg-[#102e21] text-white px-3 py-1 text-sm rounded mb-10">
-          {categoria.nombre}
+          {categoria?.nombre ?? "Sin categoria"}
         </span>
       </div>
 
       <div className="bg-[#102e21] p-6 text-white">
         <img
-          src={imagen.link}
-          alt={imagen.nombre}
+          src={imagen?.link}
+          alt={imagen?.nombre}
           className="w-full rounded-xl object-cover max-h-[400px] mb-6"
         />
         <h2 className="text-2xl font-bold">{nombre}</h2>
         <p className="mt-2">{descripcion}</p>
 
         <div className="flex items-center mt-4 gap-2">
-          {fundacion.link_logo && (
+          {fundacion?.link_logo && (
             <img
               src={fundacion.link_logo}
               alt={fundacion.nombre}
               className="h-8 w-8 object-contain"
             />
           )}
-          <span>{fundacion.nombre}</span>
+          <span>{fundacion?.nombre}</span>
         </div>
 
         <div className="mt-4 space-y-2 text-sm text-white">
@@ -130,11 +130,11 @@ export default function EventDetail() {
           </div>
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4" />
-            {hora_inicial.slice(0, 5)} AM - {hora_final.slice(0, 5)} PM
+            {hora_inicial?.slice(0, 5)} AM - {hora_final?.slice(0, 5)} PM
           </div>
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4" />
-            {lugar.nombre}
+            {lugar?.nombre}
           </div>
         </div>
 

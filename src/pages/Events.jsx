@@ -57,7 +57,7 @@ export default function Events() {
         <h1 className="text-2xl md:text-3xl font-bold text-[#023121] leading-snug my-10">
           Nuestros Eventos
         </h1>
-        <button className="border border-black px-4 py-2 w-fit text-sm font-medium hover:bg-black hover:text-white transition">
+        <button onClick={() => navigate(`/eventos/create`)} className="border border-black px-4 py-2 w-fit text-sm font-medium hover:bg-black hover:text-white transition">
           Agregar evento
         </button>
       </div>

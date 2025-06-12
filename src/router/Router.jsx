@@ -6,6 +6,7 @@ import MainLayout from '../layouts/MainLayout';
 import Login from '../pages/Login';
 import Events from '../pages/Events';
 import EventDetail from '../pages/EventDetails';
+import CreateEvent from '../pages/CreateEvent';
 
 
 export default function AppRouter() {
@@ -17,6 +18,7 @@ export default function AppRouter() {
           <Route path="/login" element={<Login />} />
           <Route path="/eventos" element={<Events />} />
           <Route path="/eventos/:id" element={<EventDetail />} />
+          <Route path="/eventos/create" element={<CreateEvent />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </MainLayout>
