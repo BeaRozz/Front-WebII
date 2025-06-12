@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EventCard from "../components/EventCard";
+import Footer from "../components/Footer";
 
 const logo = new URL("../assets/DinoFoundationLogo.png", import.meta.url);
 
@@ -69,22 +70,7 @@ export default function Events() {
           events.map((event) => <EventCard key={event.id} event={event} />)}
       </div>
 
-      <div className="bg-[#072c1b] text-white shadow-md p-6 flex flex-col items-center w-full mx-auto space-y-4 mt-5">
-        {/* Top row: Logo and Dino Foundations side by side */}
-        <div className="flex items-center w-full">
-          <img
-            src={logo}
-            alt="Foundation Logo"
-            className="w-12 h-12 md:w-20 md:h-20 object-contain mr-4"
-          />
-          <h2 className="font-bold text-start text-3xl md:text-7xl leading-tight">
-            Dino <br /> Foundations
-          </h2>
-        </div>
-
-        {/* Bottom row: Cow's association */}
-        <p className="text-lg md:text-2xl w-full text-end">Cow's association</p>
-      </div>
+      <Footer />
     </div>
   );
 }
